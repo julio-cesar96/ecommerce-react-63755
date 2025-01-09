@@ -1,20 +1,26 @@
-import Button from "./components/Button/Button"
-import Card from "./components/Card/Card"
-import UserList from "./components/UserList/UserList";
+import { useState, useEffect } from "react";
+
 
 function App() {
 
-  const handleButtonClick = () => {
-    console.log("Fui clicado");
-  }
+  const [segundos, setSegundos] = useState(0);
 
+  useEffect(() => {
+    const intervalo = setInterval(() => {
+      setSegundos((prev) => prev + 1);
+    }, 1000);
+
+    return () => { // 
+      console.log("inicio da limpeza ao componente ser desmontado");
+      clearInterval(intervalo);
+      console.log("final da limpeza ao componente ser desmontado");
+    }
+  }, []); //array de dependencias: determina quando o efeito vai ser executado
+  
+ 
   return (
     <>
-      <Card>
-        <h2> Titulo do card </h2>
-        <Button onClick={handleButtonClick} label="Ver mais" />
-      </Card>
-      <UserList />
+     <h1> Tempo: {segundos} segundos</h1>
     </>
   )
 }
