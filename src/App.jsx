@@ -1,13 +1,22 @@
-
-import Loading from "./components/Loading/Loading"
-import Text from "./components/Text/Text"
+import { doc, getDoc, getFirestore } from "firebase/firestore"
+import { useEffect, useState } from "react"
 
 function App() {
+  const [products, setProducts] = useState({});
+
+  useEffect(() => {
+    const db = getFirestore();
+    const itemsRef = doc(db, "items", "qvbRDrZTFWzERaasoI3A");
+    getDoc(itemsRef).then((snapshot) => {
+      if (snapshot.exists()) {
+        setProducts({ id: snapshot.id, ...snapshot.data()});
+      }
+    });
+  }, []);
+
   return (
     <>
-     <Text condition={true} />
-      <hr />
-      <Loading />
+      {console.log(products)};
     </>
   )
 }
